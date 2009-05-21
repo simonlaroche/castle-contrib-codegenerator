@@ -49,7 +49,7 @@ namespace Castle.Tools.CodeGenerator.Services
 				typeResolver.UseNamespace("SomeNamespace", true);
 				typeResolver.UseNamespace("System");
 				Expect.Call(typeResolver.Resolve(new TypeReference("DateTime")))
-					.Constraints(Is.Matching((TypeReference reference) => reference.SystemType == "DateTime"))
+					.Constraints(Rhino.Mocks.Constraints.Is.Matching((TypeReference reference) => reference.SystemType == "DateTime"))
 					.Return("System.DateTime[]");
 			}
 

@@ -179,7 +179,7 @@ namespace Castle.Tools.CodeGenerator.MsBuild
 				LastCall.IgnoreArguments().Repeat.Any();
 				Expect.Call(item.GetMetadata("FullPath")).Return("CoolSuperSourceCode.cs").Repeat.Any();
 				parserService.Parse(null, null);
-				LastCall.Constraints(Is.NotNull(), Is.Equal("CoolSuperSourceCode.cs"));
+				LastCall.Constraints(Rhino.Mocks.Constraints.Is.NotNull(), Rhino.Mocks.Constraints.Is.Equal("CoolSuperSourceCode.cs"));
 				Expect.Call(treeService.Root).Return(root).Repeat.Any();
 				generator.Generate(root);
 				Expect.Call(source.Ccu).Return(ccu).Repeat.Any();

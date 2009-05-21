@@ -62,7 +62,7 @@ namespace Castle.Tools.CodeGenerator.Services
 
 			using (mocks.Unordered())
 			{
-				Expect.Call(parserFactory.CreateCSharpParser(null)).Constraints(Is.NotNull()).Return(parser);
+				Expect.Call(parserFactory.CreateCSharpParser(null)).Constraints(Rhino.Mocks.Constraints.Is.NotNull()).Return(parser);
 				parser.ParseMethodBodies = true;
 				parser.Parse();
 				typeResolver.Clear();
