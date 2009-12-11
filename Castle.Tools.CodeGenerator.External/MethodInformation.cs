@@ -15,7 +15,6 @@
 namespace Castle.Tools.CodeGenerator.External
 {
 	using System.Reflection;
-	using External;
 
 	public class MethodInformation : CustomAttributesContainer
 	{
