@@ -98,23 +98,41 @@ namespace Castle.Tools.CodeGenerator.Services.Visitors
 				}
 			}
 
-			if ((controllerNode.RestRoutesDescriptor != null) && (RestActions.Contains(methodDeclaration.Name.ToLower())))
+			if (controllerNode.RestRoutesDescriptor != null)
 			{
-				var name = controllerNode.RestRoutesDescriptor.Name + "_" + methodDeclaration.Name;
-				
-				if (!action.Children.Any(c => c.Name == name))
+				var existingActions = controllerNode.Children.OfType<ActionTreeNode>();
+
+				if (!existingActions.Any(a => a.Name == "Options"))
 				{
-					var pattern = CollectionRestActions.Contains(methodDeclaration.Name.ToLower())
-						? controllerNode.RestRoutesDescriptor.Collection
-						: controllerNode.RestRoutesDescriptor.Collection + controllerNode.RestRoutesDescriptor.Identifier;
+					var optionsAction = new ActionTreeNode("Options");
+					controllerNode.AddChild(optionsAction);
 
-					var node = new RestRouteTreeNode(
-						name, 
-						pattern, 
-						RestVerbs[Array.IndexOf(RestActions, methodDeclaration.Name.ToLower())], 
-						controllerNode.RestRoutesDescriptor.RestVerbResolverType);
+					optionsAction.AddChild(
+						new RestRouteTreeNode(
+							controllerNode.RestRoutesDescriptor.Name + "_Options",
+							controllerNode.RestRoutesDescriptor.Collection,
+							"OPTIONS",
+							controllerNode.RestRoutesDescriptor.RestVerbResolverType));
+				}
 
-					action.AddChild(node);
+				if (RestActions.Contains(methodDeclaration.Name.ToLower()))
+				{
+					var name = controllerNode.RestRoutesDescriptor.Name + "_" + methodDeclaration.Name;
+
+					if (!action.Children.Any(c => c.Name == name))
+					{
+						var pattern = CollectionRestActions.Contains(methodDeclaration.Name.ToLower())
+							? controllerNode.RestRoutesDescriptor.Collection
+							: controllerNode.RestRoutesDescriptor.Collection + controllerNode.RestRoutesDescriptor.Identifier;
+
+						var node = new RestRouteTreeNode(
+							name,
+							pattern,
+							RestVerbs[Array.IndexOf(RestActions, methodDeclaration.Name.ToLower())],
+							controllerNode.RestRoutesDescriptor.RestVerbResolverType);
+
+						action.AddChild(node);
+					}
 				}
 			}
 
